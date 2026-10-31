@@ -10,10 +10,10 @@
 !   - AdGuard DNS filter: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
 !   - DynDNS: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/dyndns.txt
 ! Expires: 6 hours
-! Last modified: 31 Oct 2026 18:27 UTC
-! Version: 2026.1031.1827
+! Last modified: 31 Oct 2026 20:51 UTC
+! Version: 2026.1031.2051
 ! Syntax: AdBlock
-! Number of entries: 582624
+! Number of entries: 582651
 
 *ad.durasite.net^
 -1080x140-
@@ -22946,6 +22946,7 @@ wykop.pl$badfilter
 ||aalborgtidende.com^
 ||aalearninghub.com^
 ||aaliy.com^
+||aaljgufqhdgwg.space^
 ||aaljx.com^
 ||aalnk.com^
 ||aalpyojlgmvbu.space^
@@ -138407,6 +138408,7 @@ wykop.pl$badfilter
 ||cwconsultores.cnt.br^
 ||cwcrcmadilrquma.com^
 ||cwdata.itsearch.co.kr^
+||cwdbfkjlmiqst.online^
 ||cwe-booking.com^
 ||cweb.ws^
 ||cweb05.gamingcontrol.de^
@@ -150795,6 +150797,7 @@ wykop.pl$badfilter
 ||ddcfzd.com^
 ||ddcgpoltvrukxjc.net^
 ||ddckenbga.com^
+||ddckvixljswl.com^
 ||ddcoronavirus.com^
 ||ddcuesoutlet.com^
 ||ddd.contoseroticoscnn.com^
@@ -178375,6 +178378,7 @@ wykop.pl$badfilter
 ||eqpuvcjjipmjn.space^
 ||eqpzad.usinenouvelle.com^
 ||eqqijviondcls.site^
+||eqqppcwtwvsmh.site^
 ||eqqquidistant.info^
 ||eqrard.com^
 ||eqripsorix.pro^
@@ -196738,6 +196742,7 @@ wykop.pl$badfilter
 ||flutterservices.xyz^
 ||flutterstumpbullet.com^
 ||flutterwave.site44.com^
+||fluvialuni.com^
 ||fluvlus.de^
 ||flux-brick.com^
 ||flux-cdn.com^
@@ -252028,6 +252033,7 @@ wykop.pl$badfilter
 ||initogel.net^
 ||inixn.com^
 ||inixwg.vibrate.co.kr^
+||iniyndenppubm.space^
 ||injakala.com^
 ||injbwbtfrzbmy.website^
 ||injd.site^
@@ -258398,6 +258404,7 @@ wykop.pl$badfilter
 ||izmithukuk.com^
 ||izmitortodonti.com^
 ||izmsj.co.jp^
+||izmwgtpuaeipn.online^
 ||izngibxwtlvqg.site^
 ||iznikescortrandevu.xyz^
 ||izoga.xyz^
@@ -260963,6 +260970,7 @@ wykop.pl$badfilter
 ||jgdko.infinitegarden.shop^
 ||jgdqd.saskrush.com^
 ||jgdrhy.com^
+||jgdsonmfioxyf.online^
 ||jgdzthrmmhnddc.com^
 ||jgf0001110a10.cfd^
 ||jgf0001110a11.cfd^
@@ -324108,6 +324116,7 @@ wykop.pl$badfilter
 ||mihaloew.com^
 ||mihanblog.com^
 ||mihandyhub.com^
+||mihdznjuuecvz.space^
 ||mihhnstrelackee.info^
 ||mihird.com^
 ||mihkazfzizm.com^
@@ -334275,6 +334284,7 @@ wykop.pl$badfilter
 ||mwyrufyswsdam.online^
 ||mwyxaylcphacl.site^
 ||mwzbp.iask.com.cn^
+||mwzhywfodmgfi.space^
 ||mwzkkpwmq.com^
 ||mwzovcuzsqpyv.site^
 ||mwztyflmatxei.site^
@@ -354708,6 +354718,7 @@ wykop.pl$badfilter
 ||olympiatileinstallation.com^
 ||olympiatileinstallers.com^
 ||olympiaverlag.122.2o7.net^
+||olympiccartway.cyou^
 ||olympiccasino.xyz^
 ||olympicpride.com^
 ||olympicsclassified.com^
@@ -356232,6 +356243,7 @@ wykop.pl$badfilter
 ||onkentesnyugdijpenztar.shop^
 ||onkhvfxgrruej.site^
 ||onkjicaw.com^
+||onklcuvcu.in^
 ||onkmusic.com^
 ||onkobmawqa.com^
 ||onl-ine-edi-ting.gw266d.info^
@@ -362998,6 +363010,7 @@ wykop.pl$badfilter
 ||p1nptrk.com^
 ||p1oo54kz6d.com^
 ||p1servicesonline.com^
+||p1x723p1wc3wf9ty8j4w3vwz6.cfd^
 ||p2-ad.adukwai.com^
 ||p2-lm.adukwai.com^
 ||p2-play.edge4k.com^
@@ -379141,6 +379154,7 @@ wykop.pl$badfilter
 ||pnt96-live.com^
 ||pntbrs.reflectwindow.com^
 ||pntl.tl^
+||pntptliwrt.com^
 ||pntra.com^
 ||pntrac.com^
 ||pntrs.com^
@@ -385465,6 +385479,7 @@ wykop.pl$badfilter
 ||prnfilmaltyazix21.shop^
 ||prng.co^
 ||prnnspxffccne.online^
+||prnqobicvxhmz.space^
 ||prnx.net^
 ||prnxeatalxwnt.website^
 ||prnzxf.glamira.se^
@@ -391683,6 +391698,7 @@ wykop.pl$badfilter
 ||q4l5gz6lqog6.www.eventus.io^
 ||q4scsxd1rpd0fs1i78cb.s3.us-east-1.amazonaws.com^
 ||q4u5298s.xyz^
+||q4uo2w891yyttq3f9w45ok77bnb85nceyxk.rest^
 ||q511.wpbf.com^
 ||q552.iisalmensanomat.fi^
 ||q58.ad5.mytemp.website^
@@ -392893,6 +392909,7 @@ wykop.pl$badfilter
 ||qiq.videouniquebooster.com^
 ||qiq84w7jfg2u8i1njgu6v36e783.cyou^
 ||qiqdpeovkobj.com^
+||qiqexaqrywuoz.website^
 ||qiqiuqq.com^
 ||qiqivlogshipin4.baby^
 ||qiqivlogshipin6.baby^
@@ -407702,6 +407719,7 @@ wykop.pl$badfilter
 ||ringbalor.com^
 ||ringcentral.tt.omtrdc.net^
 ||ringdisgustpostman.com^
+||ringedisherupsmite.cyou^
 ||ringedsake.com^
 ||ringerbaseballsilk.com^
 ||ringersidewaysapiece.com^
@@ -412119,6 +412137,7 @@ wykop.pl$badfilter
 ||rplootlogin.com^
 ||rpmcarservice.com^
 ||rpmgroup.com.au^
+||rpmgxvqlivica.site^
 ||rpmmedia.net^
 ||rpmusic12org.cfd^
 ||rpngzu5.ok3p32vy55xz4j6irln4fybyee7.cyou^
@@ -413275,6 +413294,7 @@ wykop.pl$badfilter
 ||rtilfalkb.com^
 ||rtip4abjv3.com^
 ||rtjgt.com^
+||rtjhxivohxnfx.online^
 ||rtjthfgyfbsfo.online^
 ||rtjthgjnwetghf39.top^
 ||rtjxt.com^
@@ -454620,6 +454640,7 @@ wykop.pl$badfilter
 ||smixldswntjcf.site^
 ||smjfinancialservices.com^
 ||smjpr.killstar.com^
+||smjwhumcfxn.com^
 ||smjydg.cartersoshkosh.ca^
 ||smk.co.th^
 ||smk.dog^
@@ -487177,6 +487198,7 @@ wykop.pl$badfilter
 ||stpe.joaopaulomendes.com.br^
 ||stpe.l4w.com.br^
 ||stpe.mesmereyez.ae^
+||stpessqnu.com^
 ||stpeteledger.com^
 ||stpetersbaybarbados.net^
 ||stpetershighschool.com^
@@ -521271,6 +521293,7 @@ wykop.pl$badfilter
 ||tramssakcia.cyou^
 ||tramveldgruntsk.info^
 ||trana-node.site^
+||tranblubberaglance.cfd^
 ||trancheoir.net^
 ||trandgid.com^
 ||trandixai-nl.live^
@@ -559248,6 +559271,7 @@ wykop.pl$badfilter
 ||wioqrkmfiobsv.com^
 ||wiosennawyprzedaz.shop^
 ||wiosna-2026-nr73921.click^
+||wiovhgcmuwucw.site^
 ||wipe.de^
 ||wipedhaughty.com^
 ||wipedheritagedarker.com^
@@ -566073,6 +566097,7 @@ wykop.pl$badfilter
 ||xfehectueumst.online^
 ||xffzmtwzxzrqp.space^
 ||xfgctg.com^
+||xfgdzjmeblpul.website^
 ||xfghbdfghfdgh.pages.dev^
 ||xfgmggfebwjtv.online^
 ||xfhoh.poker^
@@ -572641,6 +572666,7 @@ wykop.pl$badfilter
 ||yhfyfmjammvgxud.com^
 ||yhgkf.meltcosmetics.com^
 ||yhgqxkjz9.com^
+||yhgtgwewtwmka.site^
 ||yhgyog.elephantstock.com^
 ||yhh173.cloud^
 ||yhhkrndlxhksx.online^
@@ -582271,6 +582297,7 @@ wykop.pl$badfilter
 ||zyduqiu.pro^
 ||zyek35wsn.com^
 ||zyeptr.mebline.pl^
+||zyeweaufvmfub.space^
 ||zyf03k.xyz^
 ||zyfcq.com^
 ||zyfcw.net^
