@@ -1,10 +1,14 @@
 #!/usr/bin/env python3
-"""Combine HaGeZi adblock lists into one deduplicated list for AdGuard Home.
+"""Combine blocklists into one deduplicated list for AdGuard Home.
 
 Sources (AdBlock format, same format in, same format out):
-  - Multi PRO
-  - Threat Intelligence Feeds, medium version
-  - Fake
+  - HaGeZi Multi PRO
+  - HaGeZi Threat Intelligence Feeds, medium version
+  - AdGuard DNS filter (AdGuardSDNSFilter, DNS-simplified)
+  - HaGeZi DynDNS
+Note: HaGeZi Fake is intentionally NOT included - 99.94% of its rules
+are already in Multi PRO (verified 2026-11-01: only 5 Fake-only rules),
+so it adds nothing material.
 Output: adblock/mini.txt
 Rules are deduplicated by exact line and sorted, so diffs stay stable
 between runs. Header comments (starting with '!') are regenerated
@@ -18,7 +22,8 @@ from pathlib import Path
 SOURCES = [
     ("Multi PRO", "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/pro.txt"),
     ("Threat Intelligence Feeds (medium)", "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/tif.medium.txt"),
-    ("Fake", "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/fake.txt"),
+    ("AdGuard DNS filter", "https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt"),
+    ("DynDNS", "https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/dyndns.txt"),
 ]
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -47,6 +52,10 @@ def main() -> int:
                 continue
             if line.startswith("!"):
                 continue
+            if line.startswith("#"):
+                # SDNS embeds some '#' comment lines from its own sources;
+                # they are not domain rules and are useless for DNS blocking.
+                continue
             rules.add(line)
         per_source.append(f"{name}: {len(rules) - count_before} new rules")
 
@@ -54,10 +63,10 @@ def main() -> int:
     header = [
         "[Adblock Plus]",
         "",
-        "! Title: Combined HaGeZi Blocklist (PRO + TIF medium + Fake)",
-        "! Description: Deduplicated combination of HaGeZi Multi PRO, Threat Intelligence Feeds (medium) and Fake, in AdBlock format for AdGuard Home.",
+        "! Title: Combined Blocklist (PRO + TIF medium + AdGuard DNS + DynDNS)",
+        "! Description: Deduplicated combination of HaGeZi Multi PRO, Threat Intelligence Feeds (medium), AdGuard DNS filter and HaGeZi DynDNS, in AdBlock format for AdGuard Home.",
         "! Homepage: https://github.com/backkampung/dns-blocklists",
-        "! License: GPL-3.0 - derived from HaGeZi dns-blocklists (https://github.com/hagezi/dns-blocklists). Not affiliated with HaGeZi.",
+        "! License: GPL-3.0 - derived from HaGeZi dns-blocklists (https://github.com/hagezi/dns-blocklists) and AdGuardSDNSFilter (https://github.com/AdguardTeam/AdGuardSDNSFilter). Not affiliated with HaGeZi or AdGuard.",
         "! Sources:",
     ]
     for name, url in SOURCES:
