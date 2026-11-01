@@ -19,10 +19,39 @@ So "mini" means "the smallest of this family", compared with the
 planned PRO / PRO MAX versions. In absolute terms it is still a
 large list: about **582,000 rules, about 13 MB** (the exact count
 is in the header of `adblock/mini.txt` and changes as upstream
-lists update). If you run AdGuard Home on a low-memory device
-such as a Raspberry Pi, watch its memory usage after adding this
-list, and check the rule count shown in AdGuard Home's Filters
-page — AdGuard Home may count rules differently from the header.
+lists update). Check the rule count shown in AdGuard Home's
+Filters page — AdGuard Home may count rules differently from
+the header.
+
+### Raspberry Pi and low-memory devices: who should worry?
+
+Most Raspberry Pi users do **not** need to worry. Be specific
+about the cutoff, instead of warning everyone:
+
+- **Not suitable: devices with less than 1 GB of RAM in total**
+  (for example Raspberry Pi Zero, Pi 1 and Pi 2, or a router
+  with 512 MB). AdGuard Home itself, the operating system and
+  a 582,000-rule list together leave too little headroom, and
+  memory use spikes further while a list is updating. Use a
+  smaller list on these devices instead.
+- **Borderline: 1 GB devices** (for example Raspberry Pi 3 and
+  Pi Zero 2 W), especially if the same device also runs other
+  services such as CasaOS, Docker containers or a media server.
+  AdGuard Home alone can run, but a list update can push it
+  into swap. If you try it, watch memory during a list update
+  and consider shortening the query-log retention in AdGuard
+  Home's DNS settings.
+- **No special concern: 2 GB or more** (for example Raspberry
+  Pi 4 / Pi 5 with 2 GB, 4 GB or 8 GB, a NAS, a mini PC or a
+  VM with 2 GB+). This is the normal case for AdGuard Home
+  with a list of this size. HaGeZi's own guidance for the
+  TIF medium list alone is at least 1 GB for AdGuard Home;
+  this combined list is larger than PRO + TIF alone, so treat
+  1 GB as the floor, not as comfortable headroom.
+
+Actual memory use also depends on what else runs on the same
+device and on AdGuard Home's query-log retention, so treat the
+cutoffs above as guidance, not as a guarantee for every setup.
 
 ## Use it in AdGuard Home
 
@@ -37,6 +66,39 @@ Then remove the separate lists it replaces, so you only keep this one.
 If something stops working after you add it, disable this list
 first and check AdGuard Home's Query Log for the blocked domain
 before assuming your network is down.
+
+## Want YouTube ads blocked? Use a browser extension as well
+
+DNS alone cannot do this, and this is by design, not a bug in
+the list. A YouTube video ad is served from the same domains as
+the video itself, so blocking the domain at the DNS layer would
+block the video too. To block YouTube ads, add a browser layer
+on top of AdGuard Home:
+
+1. Install the **AdGuard Browser Extension** for Chrome or
+   Firefox, and keep its default filters enabled. It can see
+   and hide page elements and video-ad requests in the browser,
+   which DNS cannot, and that is what blocks YouTube ads.
+2. If you also want this combined list inside the browser,
+   open the extension's Settings -> Filters -> Custom ->
+   Add custom filter, and paste the same `mini.txt` URL above.
+   This is optional. Be clear about what each part does:
+   adding `mini.txt` to the extension adds domain blocking
+   in that browser; the YouTube video-ad blocking itself comes
+   from the extension's own filters, not from adding
+   `mini.txt` alone.
+
+Two honest limits to keep in mind:
+
+- The extension only protects the browser it is installed in.
+  It does not block ads in the YouTube app on a phone or TV,
+  or in other browsers on the same device. AdGuard Home still
+  covers the whole network at the DNS layer; the extension
+  covers YouTube in that one browser.
+- YouTube actively fights ad blockers, so YouTube ad blocking
+  is a moving target. If ads reappear, first update the
+  extension's filters and check that YouTube is not on the
+  extension's allowlist, before blaming the DNS list.
 
 ## What is inside
 
@@ -87,7 +149,9 @@ It is not:
 - A VPN, a firewall, or a malware scanner.
 - A YouTube / in-video ad blocker. DNS cannot see inside a video
   stream, so ads served from the same domain as the content will
-  not be blocked by this list.
+  not be blocked by this list. See "Want YouTube ads blocked?
+  Use a browser extension as well" above for the browser-layer
+  solution.
 - A defence against DNS bypass. A device using its own DoH, VPN
   or proxy can bypass AdGuard Home entirely; blocking that needs
   network-level rules, not just this list.
