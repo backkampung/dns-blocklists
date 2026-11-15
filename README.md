@@ -4,20 +4,81 @@ A combined, deduplicated DNS blocklist for AdGuard Home, built from
 well-known upstream lists so you only need to subscribe to one URL
 instead of four.
 
+## Tiers — pick one
+
+There are three tiers, one file each. Pick **one** and use it on its
+own — do not load two tiers together. The tiers build on each other
+(HaGeZi: "pick exactly one of them"), so a higher tier **replaces**
+the lower one rather than adding to it. Note that replacement is not
+strict nesting: each step drops some lower-tier rules while adding
+new ones — PRO++ drops 15,062 PRO rules, and ULTIMATE drops 8,038
+PRO++ rules (accepted 2026-11-15; see below).
+
+| Tier | File | Sources | Rules | File size | Breakage risk |
+|---|---|---|---|---:|---:|
+| **mini** | `adblock/mini.txt` | HaGeZi Multi PRO + TIF medium + AdGuard DNS filter + DynDNS | 633,818 | 13.81 MiB | Low to moderate |
+| **pro** | `adblock/pro.txt` | HaGeZi Multi PRO++ + TIF medium + AdGuard DNS filter + DynDNS | 652,352 | 14.14 MiB | Moderate |
+| **pro-max** | `adblock/pro-max.txt` | HaGeZi Multi ULTIMATE + TIF medium + AdGuard DNS filter + DynDNS | 673,946 | 14.65 MiB | High |
+
+Counts are a snapshot from 15 Nov 2026 (build version 2026.1115.1503).
+Rule counts change with every upstream build; the tier structure does
+not. Only the HaGeZi Multi tier changes between files. TIF medium
+(353,312 rules), AdGuard DNS filter (191,921 usable rules) and DynDNS
+(1,518 rules) are the same in all three. That is why the step from mini
+to pro-max is only +40,128 rules (+6.3%), not a doubling.
+
+All three files are in AdBlock format for AdGuard Home, deduplicated,
+with a 6-hour expiry (`Expires: 6 hours` in the file header). Each file
+also carries 216 `@@` exception (allowlist) rules inherited from the
+AdGuard DNS filter — domains that must not be blocked. They count
+toward the rule total above.
+
+### mini — the default
+
+HaGeZi Multi PRO: extended protection, HaGeZi's recommended tier.
+"Restrictions here are rare." Best for most setups, including a
+Raspberry Pi running other services. If in doubt, use this one.
+
+### pro — more aggressive
+
+HaGeZi Multi PRO++ instead of PRO. "It might block a few legit domains
+by mistake, so it's best for experienced users. Ideally have an admin
+ready to unblock things that break." More referral / affiliate domains
+are blocked than in PRO. Same RAM footprint as mini in practice (about
++2 MB steady, +7 MB at filter refresh — see below).
+
+### pro-max — maximum blocking
+
+HaGeZi Multi ULTIMATE instead of PRO++. "It contains domains that can
+limit app or website functionality, including some popular trackers
+that will cause hiccups. Only use this if you know what you're doing."
+Known trade-offs, from HaGeZi:
+
+- Some META trackers are blocked: this limits Facebook and Facebook
+  Messenger, and WhatsApp's graph trackers (avatar creation, in-app
+  help centre, video effects). WhatsApp messaging itself still works.
+- Some Microsoft trackers are blocked: can affect Windows Spotlight
+  and Xbox Live achievements history.
+- Location / IP trackers are blocked: can cause wrong regional
+  settings, extra CAPTCHAs, or reduced functionality on some sites.
+
+Expect to whitelist a handful of domains after switching. Keep a note
+of what you unblock.
+
 ## Why is it called "mini"?
 
 "mini" is a **relative name, not a claim that this list is small**.
-It is the smallest tier in a planned family:
+It is the smallest tier in this family:
 
 - **mini** (this file) — HaGeZi Multi PRO based, the balanced tier.
-- **PRO** (planned) — based on HaGeZi Multi PRO++, a larger,
+- **PRO** — based on HaGeZi Multi PRO++, a larger,
   more aggressive tier.
-- **PRO MAX** (planned) — based on HaGeZi Multi ULTIMATE, the
+- **PRO MAX** — based on HaGeZi Multi ULTIMATE, the
   largest tier.
 
 So "mini" means "the smallest of this family", compared with the
-planned PRO / PRO MAX versions. In absolute terms it is still a
-large list: about **582,000 rules, about 13 MB** (the exact count
+PRO / PRO MAX versions. In absolute terms it is still a
+large list: about **633,818 rules, about 13.81 MiB** (the exact count
 is in the header of `adblock/mini.txt` and changes as upstream
 lists update). Check the rule count shown in AdGuard Home's
 Filters page — AdGuard Home may count rules differently from
@@ -31,7 +92,7 @@ about the cutoff, instead of warning everyone:
 - **Not suitable: devices with less than 1 GB of RAM in total**
   (for example Raspberry Pi Zero, Pi 1 and Pi 2, or a router
   with 512 MB). AdGuard Home itself, the operating system and
-  a 582,000-rule list together leave too little headroom, and
+  a 633,818-rule list together leave too little headroom, and
   memory use spikes further while a list is updating. Use a
   smaller list on these devices instead.
 - **Borderline: 1 GB devices** (for example Raspberry Pi 3 and
@@ -53,12 +114,50 @@ Actual memory use also depends on what else runs on the same
 device and on AdGuard Home's query-log retention, so treat the
 cutoffs above as guidance, not as a guarantee for every setup.
 
+Short answer on tiers: **RAM is not the reason to pick a tier.
+Breakage risk is.** Estimated AdGuard Home RAM per tier
+(AdGuard Home v0.107.80 measurements):
+
+| Tier | Rules | AdGuard steady RAM (est.) | AdGuard RAM at filter refresh (est.) |
+|---|---:|---:|---:|
+| mini | 633,818 | ~100–130 MB | ~300–320 MB |
+| pro | 652,352 | ~100–130 MB | ~310–330 MB |
+| pro-max | 673,946 | ~105–135 MB | ~320–340 MB |
+
+A filter refresh briefly uses about 2–3× the steady RAM, because
+AdGuard Home builds the new filtering engine while the old one keeps
+answering DNS. The difference between tiers at refresh is ~7 MB (pro)
+and ~15 MB (pro-max) — negligible next to the ~320 MB peak itself.
+
+- **Pi with 8 GB RAM: all three tiers are fine.**
+- **Pi with 4 GB RAM: mini and pro are fine; pro-max needs one check
+  first.** The risk is not the list — it is the rest of the stack.
+  Immich alone uses ~2 GB at rest and up to ~4 GB while re-indexing
+  photos. If an AdGuard refresh happens during an Immich re-index on
+  a 4 GB Pi, RAM can run out and AdGuard Home can be killed (DNS stops
+  until Docker restarts it). Before enabling pro-max on a 4 GB Pi: run
+  `free -m` with the normal stack running and confirm ~700 MB–1 GB
+  free, and avoid the first refresh during an Immich re-index. Keep
+  AdGuard Home's query-log retention short (7–30 days, not 90 days).
+- **Why not the full TIF list?** This build deliberately uses TIF
+  **medium**, not full TIF (1,450,470 rules). HaGeZi warns full TIF
+  "can eat up a lot of memory" and says AdGuard Home needs at least
+  2 GB RAM for it (1 GB for medium). Measured: adding full TIF takes
+  AdGuard's refresh peak from ~239 MB to ~782 MB. That is the cliff —
+  all three tiers here stay well clear of it.
+
+If you are unsure about RAM, stay on mini. The blocking difference
+between tiers is small; the breakage difference is not.
+
 ## Use it in AdGuard Home
 
-Filters -> DNS blocklists -> Add blocklist, with this URL:
+Filters -> DNS blocklists -> Add blocklist, with the URL of the tier
+you picked (use one tier only):
 
-```
+```text
 https://raw.githubusercontent.com/backkampung/dns-blocklists/main/adblock/mini.txt
+https://raw.githubusercontent.com/backkampung/dns-blocklists/main/adblock/pro.txt
+https://raw.githubusercontent.com/backkampung/dns-blocklists/main/adblock/pro-max.txt
 ```
 
 Then remove the separate lists it replaces, so you only keep this one.
@@ -81,12 +180,13 @@ on top of AdGuard Home:
    which DNS cannot, and that is what blocks YouTube ads.
 2. If you also want this combined list inside the browser,
    open the extension's Settings -> Filters -> Custom ->
-   Add custom filter, and paste the same `mini.txt` URL above.
+   Add custom filter, and paste the URL of the tier you use
+   (for example the `mini.txt` URL above).
    This is optional. Be clear about what each part does:
-   adding `mini.txt` to the extension adds domain blocking
+   adding a tier file to the extension adds domain blocking
    in that browser; the YouTube video-ad blocking itself comes
    from the extension's own filters, not from adding
-   `mini.txt` alone.
+   the tier file alone.
 
 Two honest limits to keep in mind:
 
@@ -102,10 +202,12 @@ Two honest limits to keep in mind:
 
 ## What is inside
 
-`adblock/mini.txt` is built from these lists, in AdBlock format,
-deduplicated by exact rule:
+The three tier files are built from these lists, in AdBlock format,
+deduplicated by exact rule. Only the HaGeZi Multi base changes:
 
-- HaGeZi Multi PRO: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/pro.txt
+- mini: HaGeZi Multi PRO: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/pro.txt
+- pro: HaGeZi Multi PRO++: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/pro.plus.txt
+- pro-max: HaGeZi Multi ULTIMATE: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/ultimate.txt
 - HaGeZi Threat Intelligence Feeds, medium version: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/tif.medium.txt
 - AdGuard DNS filter: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
 - HaGeZi DynDNS: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/dyndns.txt
@@ -117,17 +219,17 @@ Fake-only rules), so it adds nothing material.
 ### This list is not a pure blocklist: it contains allow rules
 
 This is important to know before you subscribe. The generated
-file contains, in addition to domain block rules, about **212
+files contain, in addition to domain block rules, about **216
 `@@` allow rules** inherited from the AdGuard DNS filter, plus a
 small number (about 130) of non-domain patterns that are useless
 at the DNS layer. In AdGuard Home, an allow rule takes precedence
-over a block rule, so those 212 domains are deliberately allowed
+over a block rule, so those 216 domains are deliberately allowed
 even if another source blocks them. They come from the upstream
 AdGuard filter's breakage exceptions (for example, some ad,
 affiliate and analytics domains that certain sites need in order
 to work). They are not added by this repository, and this
 repository does not hide them — you can see them by searching
-`mini.txt` for lines starting with `@@`.
+any tier file for lines starting with `@@`.
 
 If you want maximum blocking and would rather manage exceptions
 yourself, do not rely on this file alone: add your own allow
@@ -183,19 +285,21 @@ Do not discover this by losing remote access to your own server.
 
 ## Updates
 
-The file is rebuilt automatically every 6 hours (UTC) by
+The files are rebuilt automatically every 6 hours (UTC) by
 `.github/workflows/update.yml`, which runs
-`scripts/build-combined.py`. To rebuild on demand: Actions ->
-Update combined blocklist -> Run workflow.
+`scripts/build-combined.py --all` (builds mini, pro and pro-max).
+To rebuild on demand: Actions -> Update combined blocklists ->
+Run workflow.
 
-Do not edit `adblock/mini.txt` by hand — the next automatic run
-overwrites it, and hand edits would hide the real source of a
+Do not edit `adblock/mini.txt`, `adblock/pro.txt` or
+`adblock/pro-max.txt` by hand — the next automatic run
+overwrites them, and hand edits would hide the real source of a
 rule.
 
 If an update fails, AdGuard Home keeps the last version it
 successfully fetched; it does not suddenly become unprotected,
 it just becomes stale. You can check freshness yourself in the
-header at the top of `mini.txt` (`Last modified` and `Version`).
+header at the top of each tier file (`Last modified` and `Version`).
 
 ## How you can verify this repository
 
@@ -203,23 +307,25 @@ You do not have to trust this repository blindly. Everything
 needed to check it is public:
 
 - **The build script is short and readable.**
-  `scripts/build-combined.py` is about 90 lines. It only
-  downloads the four source URLs listed above over HTTPS,
+  `scripts/build-combined.py` is about 150 lines. It only
+  downloads the source URLs listed above over HTTPS,
   deduplicates by exact line, sorts the result and writes
-  `adblock/mini.txt`. It does not collect, upload or send any
-  of your data, and it does not run anything else.
-- **The generated file is never hand-edited.** Every change to
-  `adblock/mini.txt` in the commit history is made by the
+  the three tier files (`adblock/mini.txt`, `adblock/pro.txt`,
+  `adblock/pro-max.txt`). It does not collect, upload or send any
+  of your data, and it does not run anything else. Run it with
+  `--tier mini|pro|pro-max` for one tier, or `--all` for all three.
+- **The generated files are never hand-edited.** Every change to
+  the tier files in the commit history is made by the
   `github-actions[bot]` account from the workflow run, not by a
   person editing the file directly.
 - **You can reproduce it locally.** Clone the repository and
-  run `python3 scripts/build-combined.py`; you should get a
-  file with a comparable rule count (upstream lists change
+  run `python3 scripts/build-combined.py --all`; you should get
+  files with comparable rule counts (upstream lists change
   during the day, so the exact count will differ slightly).
 - **You can run it yourself.** If you would rather trust no
   third party at all, fork this repository, read
   `scripts/build-combined.py` once, and subscribe to the
-  `mini.txt` URL from your own fork. That way the only code
+  tier URL from your own fork. That way the only code
   you trust is the upstream lists plus a script you have read.
 
 ## False positives and feedback
