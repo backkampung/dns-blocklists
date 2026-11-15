@@ -10,8 +10,8 @@
 !   - AdGuard DNS filter: https://adguardteam.github.io/AdGuardSDNSFilter/Filters/filter.txt
 !   - DynDNS: https://raw.githubusercontent.com/hagezi/dns-blocklists/main/adblock/dyndns.txt
 ! Expires: 6 hours
-! Last modified: 15 Nov 2026 13:16 UTC
-! Version: 2026.1115.1316
+! Last modified: 15 Nov 2026 15:22 UTC
+! Version: 2026.1115.1522
 ! Syntax: AdBlock
 ! Number of entries: 633818
 
