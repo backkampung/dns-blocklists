@@ -54,7 +54,7 @@ TIERS = {
     },
 }
 
-ROOT = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parent.parent  # repo root — script lives in scripts/
 
 
 def sources_for(tier: str):
