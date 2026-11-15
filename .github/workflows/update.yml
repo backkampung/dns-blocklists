@@ -1,4 +1,4 @@
-name: Update combined blocklist
+name: Update combined blocklists
 
 on:
   schedule:
@@ -17,16 +17,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
-      - name: Build combined list
-        run: python3 scripts/build-combined.py
+      - name: Build combined lists (mini, pro, pro-max)
+        run: python3 scripts/build-combined.py --all
       - name: Commit and push if changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add adblock/mini.txt
+          git add adblock/mini.txt adblock/pro.txt adblock/pro-max.txt
           if git diff --cached --quiet; then
             echo "No changes."
           else
-            git commit -m "Update combined blocklist [skip ci]"
+            git commit -m "Update combined blocklists [skip ci]"
             git push
           fi
